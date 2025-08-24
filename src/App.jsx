@@ -144,7 +144,7 @@ const [showPopup, setShowPopup] = useState(false);
   const reviews = [
     {
       name: "Sayyam",
-      img: Sayyam,
+      img: sayyam,
       rating: 5,
       shortReview: "Ladakh is a once in a lifetime experience which not many get to experience! It's always written in the stars for such extravagant trips where the journey is equally important as the destination!  TrailBlaze as a group were extremely professional and covered everything that was promised within the itinerary.",
       fullReview: "Ladakh is a once in a lifetime experience which not many get to experience! It's always written in the stars for such extravagant trips where the journey is equally important as the destination!  TrailBlaze as a group were extremely professional and covered everything that was promised within the itinerary. The stay, food, comfort and hospitality was warm and commendably welcoming! This was once in a lifetime experience as we were a group of school friends traveling together and capture a trip made it etched in our memories! Can't wait for the next trip with them! Special mentions to the captains and operation head - Tushar, Vaibhav and Arpit",
@@ -158,14 +158,14 @@ const [showPopup, setShowPopup] = useState(false);
     },
     {
       name: "Rishabh",
-      img: Rishabh,
+      img: rishabh,
       rating: 5,
       shortReview: "I took a 7-day trip to Meghalaya and Kaziranga with Capture A Trip from December 25 to December 31, 2024. The accommodations were excellent, with cozy rooms and beautiful views that truly captured the essence of Meghalaya.",
       fullReview: "I took a 7-day trip to Meghalaya and Kaziranga with Capture A Trip from December 25 to December 31, 2024. The accommodations were excellent, with cozy rooms and beautiful views that truly captured the essence of Meghalaya. The food was delicious and authentic, offering a true taste of local cuisine. Our trip captain was fantastic, always ensuring everything ran smoothly and that we were comfortable. I would highly recommend them to anyone looking for a memorable and hassle-free travel experience.",
     },
     {
       name: "Akarshi",
-      img: Akarshi,
+      img: akarshi,
       rating: 5,
       shortReview: "I recently had an incredible trip from Delhi to Leh Ladakh with  TrailBlaze. The journey was well-organized and breathtakingly beautiful. Our trip captain saurav bro was exceptional, ensuring everyone had a fantastic experience. Thanks for the amazing memories!",
       fullReview: "I recently had an incredible trip from Delhi to Leh Ladakh with  TrailBlaze. The journey was well-organized and breathtakingly beautiful. Our trip captain saurav bro was exceptional, ensuring everyone had a fantastic experience. Thanks for the amazing memories! I would highly recommend Capture A Trip to all my friends and family.",
