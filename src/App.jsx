@@ -1,12 +1,15 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { motion } from "framer-motion";
-import { Calendar, MapPin, Search, Plane, Star, ChevronRight, X, Bot, Sun, Moon } from "lucide-react";
+import { Calendar, MapPin, Search, Plane, Star, ChevronRight, X, Bot, Sun, Moon, Phone, Mail, CheckCheck, Flag, Users, Handshake, HeartHandshake } from "lucide-react";
 import logo from './assets/logo03.png';
 import heroVideo from './assets/hero.mp4';
 import airplane from './assets/airplane.png';
 import yjhd01 from "./assets/yjhd01.png";
+import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
+import LadakhTripPage from './LadakhTripPage';
+import { Typewriter } from "react-simple-typewriter";
 
-// Import review images with corrected filenames as per user's request
+// Import review images with corrected filenames
 import sayyam from "./assets/sayyam.jpg";
 import aashima from "./assets/aashima.jpg";
 import rishabh from "./assets/rishabh.jpg";
@@ -41,10 +44,72 @@ export default function TrailblazeTravelClone() {
   const [dragging, setDragging] = useState(false);
   const [activeFilter, setActiveFilter] = useState('All');
   const [isDarkMode, setIsDarkMode] = useState(false);
-  
+const [showPopup, setShowPopup] = useState(false);
+
   // State for the review modal
   const [modalOpen, setModalOpen] = useState(false);
   const [selectedReview, setSelectedReview] = useState(null);
+
+  // State and ref for the horizontal review scroll dots
+  const [currentReviewIndex, setCurrentReviewIndex] = useState(0);
+  const reviewScrollRef = useRef(null);
+
+  // Refs for synchronized scrolling
+  const scrollContainer1 = useRef(null);
+  const scrollContainer2 = useRef(null);
+  const isSyncing = useRef(false);
+
+  useEffect(() => {
+    const handleScroll1 = () => {
+      if (!isSyncing.current) {
+        isSyncing.current = true;
+        if (scrollContainer2.current) {
+          scrollContainer2.current.scrollLeft = scrollContainer1.current.scrollLeft;
+        }
+      }
+      isSyncing.current = false;
+    };
+
+    const handleScroll2 = () => {
+      if (!isSyncing.current) {
+        isSyncing.current = true;
+        if (scrollContainer1.current) {
+          scrollContainer1.current.scrollLeft = scrollContainer2.current.scrollLeft;
+        }
+      }
+      isSyncing.current = false;
+    };
+
+    const container1 = scrollContainer1.current;
+    const container2 = scrollContainer2.current;
+
+    if (container1 && container2) {
+      container1.addEventListener('scroll', handleScroll1);
+      container2.addEventListener('scroll', handleScroll2);
+    }
+
+    return () => {
+      if (container1 && container2) {
+        container1.removeEventListener('scroll', handleScroll1);
+        container2.removeEventListener('scroll', handleScroll2);
+      }
+    };
+  }, [activeFilter]);
+
+  // Effect to update dots based on scroll position for mobile review cards
+  useEffect(() => {
+    const container = reviewScrollRef.current;
+    if (!container) return;
+
+    const handleScroll = () => {
+      const cardWidth = container.scrollWidth / reviews.length;
+      const newIndex = Math.round(container.scrollLeft / cardWidth);
+      setCurrentReviewIndex(newIndex);
+    };
+
+    container.addEventListener('scroll', handleScroll);
+    return () => container.removeEventListener('scroll', handleScroll);
+  }, []);
 
   const trips = [
     {
@@ -81,15 +146,15 @@ export default function TrailblazeTravelClone() {
       name: "Sayyam",
       img: sayyam,
       rating: 5,
-      shortReview: "Ladakh is a once in a lifetime experience which not many get to experience! It's always written in the stars for such extravagant trips where the journey is equally important as the destination! Capture a trip as a group were extremely professional and covered everything that was promised within the itinerary.",
-      fullReview: "Ladakh is a once in a lifetime experience which not many get to experience! It's always written in the stars for such extravagant trips where the journey is equally important as the destination! Capture a trip as a group were extremely professional and covered everything that was promised within the itinerary. The stay, food, comfort and hospitality was warm and commendably welcoming! This was once in a lifetime experience as we were a group of school friends traveling together and capture a trip made it etched in our memories! Can't wait for the next trip with them! Special mentions to the captains and operation head - Tushar, Vaibhav and Arpit",
+      shortReview: "Ladakh is a once in a lifetime experience which not many get to experience! It's always written in the stars for such extravagant trips where the journey is equally important as the destination!  TrailBlaze as a group were extremely professional and covered everything that was promised within the itinerary.",
+      fullReview: "Ladakh is a once in a lifetime experience which not many get to experience! It's always written in the stars for such extravagant trips where the journey is equally important as the destination!  TrailBlaze as a group were extremely professional and covered everything that was promised within the itinerary. The stay, food, comfort and hospitality was warm and commendably welcoming! This was once in a lifetime experience as we were a group of school friends traveling together and capture a trip made it etched in our memories! Can't wait for the next trip with them! Special mentions to the captains and operation head - Tushar, Vaibhav and Arpit",
     },
     {
       name: "Aashima",
       img: aashima,
       rating: 5,
-      shortReview: "I recently had an incredible trip from Delhi to Leh Ladakh with Capture a Trip. The journey was well-organized and breathtakingly beautiful. Our trip captain Saurav bro was exceptional, ensuring everyone had a fantastic experience.",
-      fullReview: "I recently had an incredible trip from Delhi to Leh Ladakh with Capture a Trip. The journey was well-organized and breathtakingly beautiful. Our trip captain Saurav bro was exceptional, ensuring everyone had a fantastic experience. We enjoyed it! Thank you Capture A Trip for this amazing memory.",
+      shortReview: "I recently had an incredible trip from Delhi to Leh Ladakh with  TrailBlaze. The journey was well-organized and breathtakingly beautiful. Our trip captain Saurav bro was exceptional, ensuring everyone had a fantastic experience.",
+      fullReview: "I recently had an incredible trip from Delhi to Leh Ladakh with  TrailBlaze. The journey was well-organized and breathtakingly beautiful. Our trip captain Saurav bro was exceptional, ensuring everyone had a fantastic experience. We enjoyed it! Thank you Capture A Trip for this amazing memory.",
     },
     {
       name: "Rishabh",
@@ -99,12 +164,80 @@ export default function TrailblazeTravelClone() {
       fullReview: "I took a 7-day trip to Meghalaya and Kaziranga with Capture A Trip from December 25 to December 31, 2024. The accommodations were excellent, with cozy rooms and beautiful views that truly captured the essence of Meghalaya. The food was delicious and authentic, offering a true taste of local cuisine. Our trip captain was fantastic, always ensuring everything ran smoothly and that we were comfortable. I would highly recommend them to anyone looking for a memorable and hassle-free travel experience.",
     },
     {
-      name: "Akarshi",
+      name: "Akarsh",
       img: akarsh,
       rating: 5,
-      shortReview: "I recently had an incredible trip from Delhi to Leh Ladakh with Capture a Trip. The journey was well-organized and breathtakingly beautiful. Our trip captain saurav bro was exceptional, ensuring everyone had a fantastic experience. Thanks for the amazing memories!",
-      fullReview: "I recently had an incredible trip from Delhi to Leh Ladakh with Capture a Trip. The journey was well-organized and breathtakingly beautiful. Our trip captain saurav bro was exceptional, ensuring everyone had a fantastic experience. Thanks for the amazing memories! I would highly recommend Capture A Trip to all my friends and family.",
+      shortReview: "I recently had an incredible trip from Delhi to Leh Ladakh with  TrailBlaze. The journey was well-organized and breathtakingly beautiful. Our trip captain saurav bro was exceptional, ensuring everyone had a fantastic experience. Thanks for the amazing memories!",
+      fullReview: "I recently had an incredible trip from Delhi to Leh Ladakh with  TrailBlaze. The journey was well-organized and breathtakingly beautiful. Our trip captain saurav bro was exceptional, ensuring everyone had a fantastic experience. Thanks for the amazing memories! I would highly recommend Capture A Trip to all my friends and family.",
     }
+  ];
+
+  const features = [
+    {
+      icon: <CheckCheck />,
+      title: "Solo trips are for the real ones.",
+      description: "Girls, you're safe AF. No need to wait on fam or besties—just pack and go! Explore stress-free with 100% freedom!"
+    },
+    {
+      icon: <Flag />,
+      title: "We're the greenest flag.",
+      description: "We ensure safety with verified stays, reliable transport, and trained guides for a secure, comfy, and hassle-free trip."
+    },
+    {
+      icon: <Users />,
+      title: "Our Group Captains are legit!",
+      description: "Our awesome trip captains are part-guide, part-friend and full time vibe curators."
+    },
+    {
+      icon: <HeartHandshake />,
+      title: "No middlemen, no drama.",
+      description: "No middlemen, no hidden fees. Enjoy direct bookings, lower costs, and personalized support for a seamless and affordable trip."
+    },
+    {
+      icon: <Handshake />,
+      title: "Vibe check is everything.",
+      description: "We customize your trips based on age groups, so you're not stuck vibing to someone else's playlist without permission."
+    }
+  ];
+
+  // New data for the blog posts section
+  const blogPosts = [
+    {
+      img: "src/assets/dubai-1227538_1280.jpg",
+      title: "Dubai in July: A Comprehensive Travel Guide",
+      date: "Jun 17, 2025",
+      readTime: 5,
+    },
+    {
+      img: "src/assets/maldives.jpg",
+      title: "Top 10 Things to Do in Cherrapunji: Waterfalls, Caves, Root Bridges & More",
+      date: "Aug 23, 2024",
+      readTime: 5,
+    },
+    {
+      img: "src/assets/naturemj.jpg",
+      title: "Meghalaya in July: An Ultimate Guide",
+      date: "Jun 17, 2025",
+      readTime: 5,
+    },
+    {
+      img: "src/assets/georgia-5031783_1280.jpg",
+      title: "Georgia in July - Everything You Need to Know",
+      date: "Jun 17, 2025",
+      readTime: 5,
+    },
+    {
+      img: "src/assets/bhutan-2825919_1280.jpg",
+      title: "Bhutan: The Ultimate Backpacking Guide",
+      date: "Sep 1, 2024",
+      readTime: 6,
+    },
+    {
+      img: "src/assets/ladakh-397884_1280.jpg",
+      title: "Ladakh Bike Trip: The Adventure of a Lifetime",
+      date: "Sep 15, 2024",
+      readTime: 8,
+    },
   ];
 
   // Drag handlers (mouse + touch)
@@ -126,7 +259,7 @@ export default function TrailblazeTravelClone() {
   const toggleTheme = () => {
     setIsDarkMode(!isDarkMode);
   };
-  
+
   const filteredExploreDestinations = exploreDestinations.filter(dest => {
     if (activeFilter === 'All') {
       return true;
@@ -147,13 +280,15 @@ export default function TrailblazeTravelClone() {
   const textColor = isDarkMode ? "text-white" : "text-black";
   const bgColor = isDarkMode ? "bg-black" : "bg-white";
 
+  // Split destinations into two rows for horizontal scrolling on all views
+  const firstRowDestinations = filteredExploreDestinations.slice(0, Math.ceil(filteredExploreDestinations.length / 2));
+  const secondRowDestinations = filteredExploreDestinations.slice(Math.ceil(filteredExploreDestinations.length / 2));
+
   return (
     <div
       className={`min-h-screen ${bgColor} ${textColor} select-none`}
       onMouseMove={handleMouseMove}
       onMouseUp={handleMouseUp}
-      onTouchMove={handleTouchMove}
-      onTouchEnd={handleTouchEnd}
     >
       {/* Google Font: Poppins */}
       <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -162,7 +297,17 @@ export default function TrailblazeTravelClone() {
         href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap"
         rel="stylesheet"
       />
-      <style>{`body { font-family: 'Poppins', ui-sans-serif, system-ui, -apple-system; }`}</style>
+      <style>{`
+        body { font-family: 'Poppins', ui-sans-serif, system-ui, -apple-system; }
+        /* Hide scrollbar for the destination containers */
+        .no-scrollbar::-webkit-scrollbar {
+          display: none;
+        }
+        .no-scrollbar {
+          -ms-overflow-style: none; /* IE and Edge */
+          scrollbar-width: none; /* Firefox */
+        }
+      `}</style>
 
       {/* Top bar */}
       <header className={`sticky top-0 z-40 backdrop-blur supports-[backdrop-filter]:${isDarkMode ? 'bg-black/40' : 'bg-white/40'} ${isDarkMode ? 'bg-black/60' : 'bg-white/60'} border-b ${isDarkMode ? 'border-white/10' : 'border-black/10'}`}>
@@ -198,70 +343,234 @@ export default function TrailblazeTravelClone() {
 
       {/* Hero */}
       <section className="relative overflow-hidden">
-        <div className="absolute inset-0">
-          <video
-            className="h-full w-full object-cover opacity-40"
-            src={heroVideo}
-            autoPlay
-            loop
-            muted
-            playsInline
-          />
-          <div className={`absolute inset-0 bg-gradient-to-b from-black via-black/30 to-black/50 ${isDarkMode ? '' : 'from-white via-white/30 to-white/50'}`} />
-        </div>
+      {/* Background Video */}
+      <div className="absolute inset-0">
+        <video
+          className="h-full w-full object-cover opacity-40"
+          src={heroVideo}
+          autoPlay
+          loop
+          muted
+          playsInline
+        />
+        <div
+          className={`absolute inset-96 bg-gradient-to-b from-black via-black/10 to-black/20 ${
+            isDarkMode ? "" : "from-white via-white/10 to-white/200"
+          }`}
+        />
+      </div>
 
-        <div className="relative mx-auto max-w-7xl px-4 sm:px-6 pt-20 pb-24">
-          <div className="flex items-start flex-wrap">
-            <motion.h1
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
-              className={`text-4xl sm:text-5xl font-bold leading-relaxed tracking-wider ${textColor}`}
-            >
-              Kahin Pohochne ke liye, <br className="size-min" /> Kahin se nikalna bohot zaroori hai
-            </motion.h1>
-            <motion.img
-              src={airplane}
-              alt="Airplane"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7, delay: 0.2 }}
-              className="w-16 h-16 sm:w-20 sm:h-20 ml-2 mt-2 self-start"
-            />
+      <div className="relative mx-auto max-w-7xl px-4 sm:px-6 pt-20 pb-24">
+        {/* 🔹 Small Search Input (above heading, centered) */}
+      <div
+  onClick={() => setShowPopup(true)}
+  className="hidden lg:flex mx-auto w-full max-w-md items-center gap-2 rounded-full px-4 py-2 cursor-pointer bg-white shadow-md"
+>
+  <Search className="h-4 w-4 text-gray-500" />
+  <span className="text-gray-500 text-sm">Search destination...</span>
+</div>
+        {/* 🔹 Popup */}
+        {showPopup && (
+          <div
+            className={`absolute left-1/2 top-1/2 z-50 w-full max-w-lg -translate-x-1/2 -translate-y-1/2 rounded-2xl shadow-lg p-6 ${
+              isDarkMode ? "bg-black text-white" : "bg-white text-black"
+            }`}
+          >
+            <div className="flex justify-between items-center mb-4">
+              <h2 className="text-lg font-semibold">Trending Destinations</h2>
+              <button
+                onClick={() => setShowPopup(false)}
+                className={`${isDarkMode ? "text-gray-300" : "text-gray-500"}`}
+              >
+                ✕
+              </button>
+            </div>
+
+            {/* Trending Destinations */}
+            <div className="flex flex-wrap gap-2 mb-6">
+              {[
+                "Bali",
+                "Georgia",
+                "Ladakh",
+                "Meghalaya",
+                "Spiti",
+                "Vietnam",
+              ].map((item) => (
+                <span
+                  key={item}
+                  className={`px-3 py-1 rounded-full border text-sm ${
+                    isDarkMode
+                      ? "border-gray-600 bg-white/10 text-white"
+                      : "border-gray-300 bg-gray-50 text-black"
+                  }`}
+                >
+                  {item}
+                </span>
+              ))}
+            </div>
+
+            {/* Recommended Destinations */}
+            <h2 className="text-lg font-semibold mb-3">
+              Recommended Destinations
+            </h2>
+            <div className="grid grid-cols-3 gap-3">
+              {/* Almaty */}
+              <div className="rounded-lg overflow-hidden">
+                <img
+                  src="/src/assets/maldives.jpg"
+                  alt="Almaty"
+                  className="h-24 w-full object-cover"
+                />
+                <p className="text-sm font-medium">maldives Tour Package</p>
+                <p className="text-xs opacity-80">Starting ₹64,999</p>
+              </div>
+
+              {/* Georgia */}
+              <div className="rounded-lg overflow-hidden">
+                <img
+                  src="/src/assets/georgia-5031783_1280.jpg"
+                  alt="Georgia"
+                  className="h-24 w-full object-cover"
+                />
+                <p className="text-sm font-medium">Georgia Tour Package</p>
+                <p className="text-xs opacity-80">Starting ₹52,999</p>
+              </div>
+
+              {/* Spiti */}
+              <div className="rounded-lg overflow-hidden">
+                <img
+                  src="/src/assets/spiti.jpg"
+                  alt="Spiti"
+                  className="h-24 w-full object-cover"
+                />
+                <p className="text-sm font-medium">Spiti Early Bird Offer</p>
+                <p className="text-xs opacity-80">Starting ₹16,999</p>
+              </div>
+            </div>
           </div>
-          <p className={`mt-4 max-w-2xl ${isDarkMode ? 'text-white/80' : 'text-black/80'}`}>
-            Backpacking adventures, group escapes, and luxe getaways — designed for students, couples, and squads.
-          </p>
+        )}
 
-          {/* Search bar */}
-          <motion.div
+        {/* Heading with Airplane */}
+        <div className="flex items-start flex-wrap mt-10">
+          <motion.h1
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.1 }}
-            className={`mt-8 grid grid-cols-1 md:grid-cols-4 gap-3 rounded-2xl ${isDarkMode ? 'bg-white/5 ring-1 ring-white/10 backdrop-blur-lg' : 'bg-black/5 ring-1 ring-black/10 backdrop-blur-lg'} p-3`}
+            transition={{ duration: 0.6 }}
+            className={`text-4xl sm:text-5xl font-bold leading-relaxed tracking-wider ${textColor}`}
           >
-            <Field isDarkMode={isDarkMode} icon={<MapPin className="h-4 w-4" />} label="From" placeholder="Indore" />
-            <Field isDarkMode={isDarkMode} icon={<MapPin className="h-4 w-4" />} label="To" placeholder="Goa / Bali / Dubai" />
-            <Field isDarkMode={isDarkMode} icon={<Calendar className="h-4 w-4" />} label="Dates" placeholder="Aug 28 – Sep 2" />
-            <button className="flex items-center justify-center gap-2 rounded-xl bg-[var(--brand)] text-white font-semibold px-4 py-3" style={{ ['--brand']: BRAND }}>
-              <Search className="h-4 w-4" /> Search
-            </button>
-          </motion.div>
-
-          {/* Trust bar */}
-          <div className={`mt-6 flex flex-wrap items-center gap-4 text-xs ${isDarkMode ? 'text-white/60' : 'text-black/60'}`}>
-            <span className={`inline-flex items-center gap-1 rounded-full px-3 py-1 ring-1 ${isDarkMode ? 'bg-white/5 ring-white/10' : 'bg-black/5 ring-black/10'}`}>
-              <Star className="h-3 w-3" /> 4.8/5 Rated by 12k+ travelers
-            </span>
-            <span className={`inline-flex items-center gap-1 rounded-full px-3 py-1 ring-1 ${isDarkMode ? 'bg-white/5 ring-white/10' : 'bg-black/5 ring-black/10'}`}>
-              24/7 Trip Support
-            </span>
-            <span className={`inline-flex items-center gap-1 rounded-full px-3 py-1 ring-1 ${isDarkMode ? 'bg-white/5 ring-white/10' : 'bg-black/5 ring-black/10'}`}>
-              Student‑friendly EMI
-            </span>
-          </div>
+            Kahin Pohochne ke liye,{" "}
+            <br className="size-min" /> Kahin se nikalna bohot zaroori hai
+          </motion.h1>
+          <motion.img
+            src={airplane}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, delay: 0.2 }}
+            className="w-16 h-16 sm:w-20 sm:h-20 ml-2 mt-2 self-start"
+          />
         </div>
-      </section>
+
+        {/* Subtext */}
+       <p
+      className={`mt-4 max-w-2xl text-lg sm:text-xl font-medium ${
+        isDarkMode ? "text-white/80" : "text-black/80"
+      }`}
+    >
+      <Typewriter
+        words={[
+          "Backpacking adventures, group escapes, and luxe getaways — designed for students, couples, and squads.",
+          "Leh Ladakh — rugged landscapes, starry nights, and soul-stirring roads.",
+          "Goa — sun-kissed beaches, buzzing nights, and endless fun.",
+          "Manali — snow peaks, cozy cafes, and mountain adventures.",
+          "Kerala — backwaters, lush greenery, and peaceful escapes.",
+          "Rajasthan — royal palaces, desert dunes, and timeless culture.",
+          "Andaman — turquoise waters, coral reefs, and serene vibes.",
+          "Kashmir — snowy valleys, shikara rides, and heaven on earth.",
+          "Meghalaya — living root bridges, misty hills, and fresh waterfalls.",
+        ]}
+        loop={true}
+        cursor
+        cursorStyle="|"
+        typeSpeed={40}
+        deleteSpeed={20}
+        delaySpeed={2000}
+      />
+    </p>
+
+        {/* Main Search bar */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.7, delay: 0.1 }}
+          className={`mt-8 grid grid-cols-1 md:grid-cols-4 gap-3 rounded-2xl ${
+            isDarkMode
+              ? "bg-white/5 ring-1 ring-white/10 backdrop-blur-lg"
+              : "bg-black/5 ring-1 ring-black/10 backdrop-blur-lg"
+          } p-3`}
+        >
+          <Field
+            isDarkMode={isDarkMode}
+            icon={<MapPin className="h-4 w-4" />}
+            label="From"
+            placeholder="Indore"
+          />
+          <Field
+            isDarkMode={isDarkMode}
+            icon={<MapPin className="h-4 w-4" />}
+            label="To"
+            placeholder="Goa / Bali / Dubai"
+          />
+          <Field
+            isDarkMode={isDarkMode}
+            icon={<Calendar className="h-4 w-4" />}
+            label="Dates"
+            placeholder="Aug 28 – Sep 2"
+          />
+          <button
+            className="flex items-center justify-center gap-2 rounded-xl bg-[var(--brand)] text-white px-4 py-3"
+            style={{ ["--brand"]: BRAND }}
+          >
+            <Search className="h-4 w-4" /> Search
+          </button>
+        </motion.div>
+
+        {/* Trust bar */}
+        <div
+          className={`mt-6 flex flex-wrap items-center gap-4 text-xs ${
+            isDarkMode ? "text-white/60" : "text-black/60"
+          }`}
+        >
+          <span
+            className={`inline-flex items-center gap-1 rounded-full px-3 py-1 ring-1 ${
+              isDarkMode
+                ? "bg-white/5 ring-white/10"
+                : "bg-black/5 ring-black/10"
+            }`}
+          >
+            <Star className="h-3 w-3" /> 4.8/5 Rated by 12k+ travelers
+          </span>
+          <span
+            className={`inline-flex items-center gap-1 rounded-full px-3 py-1 ring-1 ${
+              isDarkMode
+                ? "bg-white/5 ring-white/10"
+                : "bg-black/5 ring-black/10"
+            }`}
+          >
+            24/7 Trip Support
+          </span>
+          <span
+            className={`inline-flex items-center gap-1 rounded-full px-3 py-1 ring-1 ${
+              isDarkMode
+                ? "bg-white/5 ring-white/10"
+                : "bg-black/5 ring-black/10"
+            }`}
+          >
+            Student-friendly EMI
+          </span>
+        </div>
+      </div>
+    </section>
+ 
 
       {/* Destinations */}
       <section id="destinations" className="mx-auto max-w-7xl px-4 sm:px-6 py-14">
@@ -285,12 +594,19 @@ export default function TrailblazeTravelClone() {
           </button>
         </div>
 
-        {/* Horizontal Scroll with unified grid layout */}
-        <div className="w-full overflow-x-auto scrollbar-hide mt-6">
-          <div className="grid gap-6 pr-4" style={{ gridAutoFlow: 'column', gridTemplateRows: 'repeat(2, minmax(0, 1fr))' }}>
-            {filteredExploreDestinations.map((d, i) => (
-              <Placard key={i} name={d.name} img={d.img} tag={d.tag} />
-            ))}
+        {/* Horizontal scrolling rows for both mobile and large views */}
+        <div className="mt-6 flex flex-col gap-6">
+          {/* First row of destinations */}
+          <div ref={scrollContainer1} className="flex overflow-x-auto no-scrollbar gap-6 pb-4">
+              {firstRowDestinations.map((d, i) => (
+                <Placard key={i} name={d.name} img={d.img} tag={d.tag} />
+              ))}
+          </div>
+          {/* Second row of destinations */}
+          <div ref={scrollContainer2} className="flex overflow-x-auto no-scrollbar gap-6 pb-4">
+              {secondRowDestinations.map((d, i) => (
+                <Placard key={i} name={d.name} img={d.img} tag={d.tag} />
+              ))}
           </div>
         </div>
       </section>
@@ -308,10 +624,37 @@ export default function TrailblazeTravelClone() {
       {/* Reviews */}
       <section id="reviews" className="mx-auto max-w-7xl px-4 sm:px-6 py-14">
         <h2 className={`text-2xl sm:text-3xl font-semibold ${textColor}`}>What travelers say</h2>
-        <div className="mt-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6">
-          {reviews.map((review, i) => (
-            <ReviewCard key={i} {...review} isDarkMode={isDarkMode} onReadMore={() => handleOpenModal(review)} />
-          ))}
+        <div className="mt-6">
+          {/* Mobile view: Horizontal scroll */}
+          <div ref={reviewScrollRef} className="flex overflow-x-auto snap-x snap-mandatory gap-6 lg:hidden pb-4 no-scrollbar">
+            {reviews.map((review, i) => (
+              <ReviewCard key={i} {...review} isDarkMode={isDarkMode} onReadMore={() => handleOpenModal(review)} />
+            ))}
+          </div>
+          {/* Mobile view dots */}
+          <div className="lg:hidden flex justify-center gap-2 mt-4">
+            {reviews.map((_, i) => (
+              <button
+                key={i}
+                onClick={() => {
+                  if (reviewScrollRef.current) {
+                    reviewScrollRef.current.scrollTo({
+                      left: reviewScrollRef.current.clientWidth * i,
+                      behavior: 'smooth'
+                    });
+                  }
+                }}
+                className={`w-2 h-2 rounded-full transition-colors duration-300 ${i === currentReviewIndex ? 'bg-purple-600' : `${isDarkMode ? 'bg-white/30' : 'bg-black/30'}`}`}
+                aria-label={`Go to review ${i + 1}`}
+              />
+            ))}
+          </div>
+          {/* Large view: Grid layout */}
+          <div className="hidden lg:grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6">
+            {reviews.map((review, i) => (
+              <ReviewCard key={i} {...review} isDarkMode={isDarkMode} onReadMore={() => handleOpenModal(review)} />
+            ))}
+          </div>
         </div>
       </section>
 
@@ -355,71 +698,150 @@ export default function TrailblazeTravelClone() {
           </div>
         </div>
       </section>
-      {/* Footer */}
-      <footer className={`border-t ${isDarkMode ? 'border-white/10' : 'border-black/10'}`}>
-        <div className={`mx-auto max-w-7xl px-4 sm:px-6 py-10 grid grid-cols-1 md:grid-cols-4 gap-8 text-sm`}>
-          <div>
-            <div className={`flex items-center gap-2 font-semibold ${textColor}`}>
-              <img src={logo} alt="Trailblaze Travel Logo" className="h-6" />
+
+      {/* Reasons to choose us section */}
+      <section className={`mx-auto max-w-7xl px-4 sm:px-6 py-14`}>
+        <div className="text-center">
+          <h2 className={`text-2xl sm:text-3xl font-semibold ${textColor}`}>Reasons To Make Us Your Travel Bestie</h2>
+        </div>
+        <div className="mt-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {features.map((feature, i) => (
+            <div key={i} className={`rounded-2xl p-6 ${isDarkMode ? 'bg-white/5 ring-1 ring-white/10' : 'bg-black/5 ring-1 ring-black/10'}`}>
+              <div className={`rounded-full p-2 w-10 h-10 ${isDarkMode ? 'bg-white/10' : 'bg-black/10'} ${textColor}`}>
+                {feature.icon}
+              </div>
+              <h3 className={`mt-4 font-semibold ${textColor}`}>{feature.title}</h3>
+              <p className={`mt-2 text-sm ${isDarkMode ? 'text-white/80' : 'text-black/80'}`}>{feature.description}</p>
             </div>
-          </div>
+          ))}
+        </div>
+      </section>
+
+      {/* New: Related Blogs Section */}
+      <section className="mx-auto max-w-7xl px-4 sm:px-6 py-14">
+        <div className="flex items-end justify-between">
+          <h2 className={`text-2xl sm:text-3xl font-semibold ${textColor}`}>Related Blogs</h2>
+          <a href="#" className={`text-sm ${isDarkMode ? 'text-white/70 hover:text-white' : 'text-black/70 hover:text-black'} inline-flex items-center gap-1`}>
+            Read All <ChevronRight className="h-4 w-4" />
+          </a>
+        </div>
+        <div className="mt-6 flex overflow-x-auto no-scrollbar gap-6 pb-4">
+          {blogPosts.map((post, i) => (
+            <BlogCard key={i} {...post} isDarkMode={isDarkMode} />
+          ))}
+        </div>
+      </section>
+
+      {/* Footer */}
+      <footer className={`border-t ${isDarkMode ? 'border-white/10' : 'border-black/10'} py-16`}>
+        {/* Tagline section */}
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 text-center">
+          <h2 className={`text-3xl md:text-4xl font-semibold font-['Dancing_Script'] leading-tight ${isDarkMode ? 'text-white' : 'text-black'}`}>
+            Don't wait, just Travel.<br className="md:hidden" /> Kyuki, Zindagi Na Milegi Dobara.
+          </h2>
+          <style>{`
+            @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&display=swap');
+            .font-['Dancing_Script'] {
+              font-family: 'Dancing Script', cursive;
+            }
+          `}</style>
+        </div>
+
+        {/* Footer content inspired by the new design */}
+        <div className={`mx-auto max-w-7xl px-4 sm:px-6 py-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 text-sm mt-8`}>
+
+          {/* Column 1: Logo & Description */}
           <div>
-            <div className={`font-medium ${isDarkMode ? 'text-white/90' : 'text-black/90'}`}>Company</div>
-            <ul className={`mt-3 space-y-2 ${isDarkMode ? 'text-white/60' : 'text-black/60'}`}>
-              <li>About</li>
-              <li>Careers</li>
-              <li>Contact</li>
-            </ul>
+            <div className={`flex items-end gap-2 font-semibold ${textColor}`}>
+              <img src={logo} alt="Trailblaze Travel Logo" className="h-56" />
+           
+            </div>
+           
           </div>
+
+          {/* Column 2: Quick Links */}
           <div>
-            <div className={`font-medium ${isDarkMode ? 'text-white/90' : 'text-black/90'}`}>Support</div>
-            <ul className={`mt-3 space-y-2 ${isDarkMode ? 'text-white/60' : 'text-black/60'}`}>
-              <li>FAQs</li>
-              <li>Cancellation Policy</li>
-              <li>Payment Options</li>
-            </ul>
-          </div>
+  {/* The Quick Links title is now placed within the two-column grid */}
+  <div className="grid grid-cols-2 gap-y-2">
+    <div className="col-span-3 text-center">
+      <div className={`font-semibold text-lg ${isDarkMode ? 'text-white/90' : 'text-black/90'}`}>Quick Links</div>
+    </div>
+    
+    {/* First UL list */}
+    <ul className={`space-y-2 ${isDarkMode ? 'text-white/60' : 'text-black/60'} pt-4`}>
+      <li>About</li>
+      <li>India</li>
+      <li>International</li>
+      <li>MICE</li>
+      <li>Terms & Conditions</li>
+    </ul>
+    
+    {/* Second UL list */}
+    <ul className={`space-y-2 ${isDarkMode ? 'text-white/60' : 'text-black/60'} pt-4`}>
+      <li>Contact Us</li>
+      <li>Testimonials</li>
+      <li>Packages Enquiry Now</li>
+      <li>Blog</li>
+      <li>Careers</li>
+    </ul>
+  </div>
+</div>
+
+          {/* Column 3: Follow Us On */}
           <div>
-            <div className={`font-medium ${isDarkMode ? 'text-white/90' : 'text-black/90'}`}>Follow</div>
+            <div className={`font-semibold text-lg ${isDarkMode ? 'text-white/90' : 'text-black/90'}`}>Follow Us On</div>
             <ul className={`mt-3 space-y-2 ${isDarkMode ? 'text-white/60' : 'text-black/60'}`}>
               <li>Instagram</li>
               <li>YouTube</li>
               <li>LinkedIn</li>
             </ul>
           </div>
-        </div>
-        <div className={`text-center text-xs ${isDarkMode ? 'text-white/50' : 'text-black/50'} pb-8`}>© 2025 Trailblaze Travel. All rights reserved.</div>
-      </footer>
 
-      {/* Plan My Trip Modal */}
-      {open && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-          <div className="absolute inset-0 bg-black/70" onClick={() => setOpen(false)} />
-          <div className="relative w-full max-w-lg rounded-2xl bg-zinc-950 p-6 ring-1 ring-white/10">
-            <button
-              onClick={() => setOpen(false)}
-              className="absolute right-3 top-3 rounded-full bg-white/10 p-1 hover:bg-white/20"
-            >
-              <X className="h-4 w-4 text-white" />
-            </button>
-            <h3 className="text-xl font-semibold text-white">Plan My Trip</h3>
-            <p className="mt-1 text-sm text-white/70">Tell us a few details and we’ll craft an itinerary.</p>
-            <div className="mt-4 grid grid-cols-1 md:grid-cols-2 gap-3">
-              <MiniField label="From" placeholder="City" />
-              <MiniField label="To" placeholder="Destination" />
-              <MiniField label="Start Date" placeholder="DD/MM/YYYY" />
-              <MiniField label="End Date" placeholder="DD/MM/YYYY" />
-              <MiniField label="Travelers" placeholder="2 Adults" />
-              <MiniField label="Budget" placeholder="₹50,000" />
-            </div>
-            <div className="mt-5 flex flex-wrap gap-3">
-              <button className="rounded-2xl bg-[var(--brand)] text-white px-5 py-2 font-semibold" style={{ ['--brand']: BRAND }}>Generate Plan</button>
-              <button className="rounded-2xl ring-1 ring-white/20 text-white px-5 py-2 font-semibold">Download PDF</button>
-            </div>
-            <p className="mt-3 text-xs text-white/50">UI only • Hook up to your backend/Render when ready.</p>
+          {/* Column 4: Get In Touch */}
+          <div>
+            <div className={`font-semibold text-lg ${isDarkMode ? 'text-white/90' : 'text-black/90'}`}>Get In Touch</div>
+            <ul className={`mt-3 space-y-2 ${isDarkMode ? 'text-white/60' : 'text-black/60'}`}>
+              <li className="flex items-center gap-2">
+                <Phone className="w-4 h-4" /> 1800 266 8484
+              </li>
+              <li className="flex items-center gap-2">
+                <Mail className="w-4 h-4" /> vacations@trailblazertravel.com
+              </li>
+            </ul>
           </div>
         </div>
-      )}
+        <div className={`text-center text-xs ${isDarkMode ? 'text-white/50' : 'text-black/50'} pb-8`}>© 2025 Trailblazer Travel. All rights reserved.</div>
+      </footer>
+
+      {/* Plan My Trip Modal
+    {open && (
+      <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+        <div className="absolute inset-0 bg-black/70" onClick={() => setOpen(false)} />
+        <div className="relative w-full max-w-md rounded-2xl bg-zinc-950 p-6 sm:p-8 ring-1 ring-white/10">
+          <button
+            onClick={() => setOpen(false)}
+            className="absolute right-3 top-3 rounded-full bg-white/10 p-1 hover:bg-white/20"
+          >
+            <X className="h-4 w-4 text-white" />
+          </button>
+          <h3 className="text-xl font-semibold text-white">Plan My Trip</h3>
+          <p className="mt-1 text-sm text-white/70">Tell us a few details and we’ll craft an itinerary.</p>
+          <div className="mt-4 grid grid-cols-1 md:grid-cols-2 gap-3">
+            <MiniField label="From" placeholder="City" />
+            <MiniField label="To" placeholder="Destination" />
+            <MiniField label="Start Date" placeholder="DD/MM/YYYY" />
+            <MiniField label="End Date" placeholder="DD/MM/YYYY" />
+            <MiniField label="Travelers" placeholder="2 Adults" />
+            <MiniField label="Budget" placeholder="₹50,000" />
+          </div>
+          <div className="mt-5 flex flex-wrap gap-3">
+            <button className="rounded-2xl bg-[var(--brand)] text-white px-5 py-2 font-semibold" style={{ ['--brand']: BRAND }}>Generate Plan</button>
+            <button className="rounded-2xl ring-1 ring-white/20 text-white px-5 py-2 font-semibold">Download PDF</button>
+          </div>
+          <p className="mt-3 text-xs text-white/50">UI only • Hook up to your backend/Render when ready.</p>
+        </div>
+      </div>
+    )} */}
 
       {/* Review Modal */}
       {modalOpen && selectedReview && (
@@ -445,26 +867,24 @@ export default function TrailblazeTravelClone() {
                     <Star key={i} className="h-4 w-4" />
                   ))}
                 </div>
-                <p className="mt-2 text-sm sm:text-base text-gray-800">{selectedReview.fullReview}</p>
-                <div className="mt-4 font-semibold text-lg text-black">{selectedReview.name}</div>
+                <p className={`mt-2 text-sm text-gray-800`}>{selectedReview.fullReview}</p>
+                <div className={`mt-4 font-semibold text-lg text-black`}>{selectedReview.name}</div>
               </div>
             </div>
           </div>
         </div>
       )}
 
-      {/* Draggable AI Chatbot */}
-      <div
-        onMouseDown={handleMouseDown}
-        onTouchStart={handleTouchStart}
-        className="fixed z-50 cursor-move"
-        style={{ left: dragPos.x, top: dragPos.y }}
-      >
-        <div className="rounded-full p-3 shadow-lg" style={{ backgroundColor: BRAND }}>
-          <Bot className="h-6 w-6 text-white" />
-        </div>
-      </div>
-    </div>
+        {/* Fixed AI Chatbot */}
+      <button
+      className="fixed bottom-6 right-6 z-50 flex items-center gap-3 rounded-full bg-white text-black px-6 py-3 shadow-xl hover:shadow-2xl transition-shadow cursor-pointer"
+    >
+      <span className="font-semibold text-sm">Chat with us</span>
+      <div className="rounded-full p-2" style={{ backgroundColor: BRAND }}>
+        <Bot className="h-6 w-6 text-white" />
+      </div>
+    </button>
+  </div>
   );
 }
 
@@ -551,7 +971,7 @@ function ReviewCard({ name, img, shortReview, rating, isDarkMode, onReadMore }) 
   const reviewColor = isDarkMode ? "text-white/80" : "text-black/80";
 
   return (
-    <motion.div whileHover={{ y: -2 }} className={`flex flex-col md:flex-row items-start gap-4 rounded-2xl p-5 ring-1 ${cardBg}`}>
+    <motion.div whileHover={{ y: -2 }} className={`flex flex-col md:flex-row items-start gap-4 rounded-2xl p-5 ring-1 ${cardBg} flex-shrink-0 w-[90vw] sm:w-[50vw] lg:w-full snap-center`}>
       <div className="flex-shrink-0 w-20 h-20 rounded-lg overflow-hidden md:w-24 md:h-24">
         <img src={img} alt={name} className="w-full h-full object-cover" />
       </div>
@@ -570,6 +990,29 @@ function ReviewCard({ name, img, shortReview, rating, isDarkMode, onReadMore }) 
         <div className={`mt-3 text-sm font-semibold ${textColor}`}>— {name}</div>
       </div>
     </motion.div>
+  );
+}
+
+// New component for blog cards
+function BlogCard({ img, title, date, readTime, isDarkMode }) {
+  const textColor = isDarkMode ? "text-white" : "text-black";
+  const detailsColor = isDarkMode ? "text-white/70" : "text-black/70";
+  const cardBg = isDarkMode ? "bg-white/5 ring-white/10" : "bg-black/5 ring-black/10";
+  const linkColor = isDarkMode ? "text-blue-400 hover:text-blue-300" : "text-blue-600 hover:text-blue-500";
+
+  return (
+    <div className={`flex-shrink-0 w-80 rounded-3xl overflow-hidden ring-1 ${cardBg}`}>
+      <img src={img} alt={title} className="h-44 w-full object-cover" />
+      <div className="p-4">
+        <h3 className={`font-semibold text-lg ${textColor} truncate`}>{title}</h3>
+        <p className={`mt-1 text-xs ${detailsColor}`}>{date} | {readTime} Min Read</p>
+        <div className="mt-4 flex items-center justify-between">
+          <a href="#" className={`inline-flex items-center gap-1 text-sm font-semibold ${linkColor}`}>
+            Read Now <ChevronRight className="h-4 w-4" />
+          </a>
+        </div>
+      </div>
+    </div>
   );
 }
 
