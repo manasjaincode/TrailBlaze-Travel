@@ -12,7 +12,7 @@ import { Typewriter } from "react-simple-typewriter";
 // Import review images with corrected filenames
 import sayyam from "./assets/Sayyam.jpg";
 import aashima from "./assets/aashima.jpg";
-import rishabh from "./assets/rishabh.jpg";
+import rishabh from "./assets/Rishabh.jpg";
 import akarshi from "./assets/Akarshi.jpg";
 
 // Brand constants
