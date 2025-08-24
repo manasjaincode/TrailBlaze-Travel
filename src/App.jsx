@@ -14,6 +14,14 @@ import sayyam from "./assets/Sayyam.jpg";
 import aashima from "./assets/aashima.jpg";
 import rishabh from "./assets/Rishabh.jpg";
 import akarshi from "./assets/Akarshi.jpg";
+// blog post imports 
+// Blog images import
+import dubai from "./assets/dubai-1227538_1280.jpg";
+import maldives from "./assets/maldives.jpg";
+import naturemj from "./assets/naturemj.jpg";
+import georgia from "./assets/georgia-5031783_1280.jpg";
+import bhutan from "./assets/bhutan-2825919_1280.jpg";
+import ladakh from "./assets/ladakh-397884_1280.jpg";
 
 // Brand constants
 const BRAND = "#008342";
@@ -202,43 +210,43 @@ const [showPopup, setShowPopup] = useState(false);
 
   // New data for the blog posts section
   const blogPosts = [
-    {
-      img: "src/assets/dubai-1227538_1280.jpg",
-      title: "Dubai in July: A Comprehensive Travel Guide",
-      date: "Jun 17, 2025",
-      readTime: 5,
-    },
-    {
-      img: "src/assets/maldives.jpg",
-      title: "Top 10 Things to Do in Cherrapunji: Waterfalls, Caves, Root Bridges & More",
-      date: "Aug 23, 2024",
-      readTime: 5,
-    },
-    {
-      img: "src/assets/naturemj.jpg",
-      title: "Meghalaya in July: An Ultimate Guide",
-      date: "Jun 17, 2025",
-      readTime: 5,
-    },
-    {
-      img: "src/assets/georgia-5031783_1280.jpg",
-      title: "Georgia in July - Everything You Need to Know",
-      date: "Jun 17, 2025",
-      readTime: 5,
-    },
-    {
-      img: "src/assets/bhutan-2825919_1280.jpg",
-      title: "Bhutan: The Ultimate Backpacking Guide",
-      date: "Sep 1, 2024",
-      readTime: 6,
-    },
-    {
-      img: "src/assets/ladakh-397884_1280.jpg",
-      title: "Ladakh Bike Trip: The Adventure of a Lifetime",
-      date: "Sep 15, 2024",
-      readTime: 8,
-    },
-  ];
+  {
+    img: dubai,
+    title: "Dubai in July: A Comprehensive Travel Guide",
+    date: "Jun 17, 2025",
+    readTime: 5,
+  },
+  {
+    img: maldives,
+    title: "Top 10 Things to Do in Cherrapunji: Waterfalls, Caves, Root Bridges & More",
+    date: "Aug 23, 2024",
+    readTime: 5,
+  },
+  {
+    img: naturemj,
+    title: "Meghalaya in July: An Ultimate Guide",
+    date: "Jun 17, 2025",
+    readTime: 5,
+  },
+  {
+    img: georgia,
+    title: "Georgia in July - Everything You Need to Know",
+    date: "Jun 17, 2025",
+    readTime: 5,
+  },
+  {
+    img: bhutan,
+    title: "Bhutan: The Ultimate Backpacking Guide",
+    date: "Sep 1, 2024",
+    readTime: 6,
+  },
+  {
+    img: ladakh,
+    title: "Ladakh Bike Trip: The Adventure of a Lifetime",
+    date: "Sep 15, 2024",
+    readTime: 8,
+  },
+];
 
   // Drag handlers (mouse + touch)
   const handleMouseDown = () => setDragging(true);
