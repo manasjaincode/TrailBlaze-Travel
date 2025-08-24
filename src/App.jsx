@@ -14,37 +14,50 @@ import sayyam from "./assets/Sayyam.jpg";
 import aashima from "./assets/aashima.jpg";
 import rishabh from "./assets/Rishabh.jpg";
 import akarshi from "./assets/Akarshi.jpg";
-// blog post imports 
+
 // Blog images import
 import dubai from "./assets/dubai-1227538_1280.jpg";
-import maldives from "./assets/maldives.jpg";
 import naturemj from "./assets/naturemj.jpg";
 import georgia from "./assets/georgia-5031783_1280.jpg";
-import bhutan from "./assets/bhutan-2825919_1280.jpg";
-import ladakh from "./assets/ladakh-397884_1280.jpg";
+
+import ladakh from "./assets/ladakh.jpg";
+// Explore Destinations images import
+import bali from "./assets/bali-7969001_1280.jpg";
+import thailand from "./assets/thailand.jpg";
+import bhutan from "./assets/bhutan.jpg";
+import kerela from "./assets/kerela-5480871_1280.jpg";
+import manali from "./assets/manali-5104279_1280.jpg";
+import spiti from "./assets/spiti.jpg";
+import tawang from "./assets/tawang-6907059_1280.jpg";
+import maldives from "./assets/maldives.jpg";
+import nepal from "./assets/nepal-790336_1280.jpg";
+import russia from "./assets/russia.jpg";
+import kashmir from "./assets/kashmir.jpg";
+import almaly from "./assets/Amalty.jpg";   // ⚠️ check spelling & case-sensitive
+import kedarnath from "./assets/kedarnath.jpg";
 
 // Brand constants
 const BRAND = "#008342";
 
-// Restored exploreDestinations array with image paths from your assets folder
 const exploreDestinations = [
-  { name: "bali", img: "src/assets/bali-7969001_1280.jpg", tag: "International" },
-  { name: "thailand", img: "src/assets/thailand.jpg", tag: "International" },
-  { name: "ladakh", img: "src/assets/ladakh-397884_1280.jpg", tag: "Domestic" },
-  { name: "bhutan", img: "src/assets/bhutan-2825919_1280.jpg", tag: "International" },
-  { name: "kerela", img: "src/assets/kerela-5480871_1280.jpg", tag: "Domestic" },
-  { name: "manali", img: "src/assets/manali-5104279_1280.jpg", tag: "Domestic" },
-  { name: "spiti", img: "src/assets/spiti.jpg", tag: "Domestic" },
-  { name: "dubai", img: "src/assets/dubai-1227538_1280.jpg", tag: "International" },
-  { name: "georgia", img: "src/assets/georgia-5031783_1280.jpg", tag: "International" },
-  { name: "tawang", img: "src/assets/tawang-6907059_1280.jpg", tag: "Domestic" },
-  { name: "maldives", img: "src/assets/maldives.jpg", tag: "International" },
-  { name: "nepal", img: "src/assets/nepal-790336_1280.jpg", tag: "International" },
-  { name: "russia", img: "src/assets/russia.jpg", tag: "International" },
-  { name: "kashmir", img: "src/assets/kashmir.jpg", tag: "Domestic" },
-  { name: "almaly", img: "src/assets/Amalty.jpg", tag: "International" },
-  { name: "kedarnath", img: "src/assets/kedarnath.jpg", tag: "Domestic" },
+  { name: "bali", img: bali, tag: "International" },
+  { name: "thailand", img: thailand, tag: "International" },
+  { name: "ladakh", img: ladakh, tag: "Domestic" },
+  { name: "bhutan", img: bhutan, tag: "International" },
+  { name: "kerela", img: kerela, tag: "Domestic" },
+  { name: "manali", img: manali, tag: "Domestic" },
+  { name: "spiti", img: spiti, tag: "Domestic" },
+  { name: "dubai", img: dubai, tag: "International" },
+  { name: "georgia", img: georgia, tag: "International" },
+  { name: "tawang", img: tawang, tag: "Domestic" },
+  { name: "maldives", img: maldives, tag: "International" },
+  { name: "nepal", img: nepal, tag: "International" },
+  { name: "russia", img: russia, tag: "International" },
+  { name: "kashmir", img: kashmir, tag: "Domestic" },
+  { name: "almaly", img: almaly, tag: "International" },
+  { name: "kedarnath", img: kedarnath, tag: "Domestic" },
 ];
+
 
 export default function TrailblazeTravelClone() {
   const [open, setOpen] = useState(false);
