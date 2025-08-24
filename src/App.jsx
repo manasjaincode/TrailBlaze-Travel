@@ -13,7 +13,7 @@ import { Typewriter } from "react-simple-typewriter";
 import sayyam from "./assets/sayyam.jpg";
 import aashima from "./assets/aashima.jpg";
 import rishabh from "./assets/rishabh.jpg";
-import akarsh from "./assets/akarshi.jpg";
+import akarshi from "./assets/akarshi.jpg";
 
 // Brand constants
 const BRAND = "#008342";
@@ -164,8 +164,8 @@ const [showPopup, setShowPopup] = useState(false);
       fullReview: "I took a 7-day trip to Meghalaya and Kaziranga with Capture A Trip from December 25 to December 31, 2024. The accommodations were excellent, with cozy rooms and beautiful views that truly captured the essence of Meghalaya. The food was delicious and authentic, offering a true taste of local cuisine. Our trip captain was fantastic, always ensuring everything ran smoothly and that we were comfortable. I would highly recommend them to anyone looking for a memorable and hassle-free travel experience.",
     },
     {
-      name: "Akarsh",
-      img: akarsh,
+      name: "Akarshi",
+      img: akarshi,
       rating: 5,
       shortReview: "I recently had an incredible trip from Delhi to Leh Ladakh with  TrailBlaze. The journey was well-organized and breathtakingly beautiful. Our trip captain saurav bro was exceptional, ensuring everyone had a fantastic experience. Thanks for the amazing memories!",
       fullReview: "I recently had an incredible trip from Delhi to Leh Ladakh with  TrailBlaze. The journey was well-organized and breathtakingly beautiful. Our trip captain saurav bro was exceptional, ensuring everyone had a fantastic experience. Thanks for the amazing memories! I would highly recommend Capture A Trip to all my friends and family.",
