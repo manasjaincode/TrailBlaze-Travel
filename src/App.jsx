@@ -131,36 +131,36 @@ const [showPopup, setShowPopup] = useState(false);
     container.addEventListener('scroll', handleScroll);
     return () => container.removeEventListener('scroll', handleScroll);
   }, []);
+const trips = [
+  {
+    title: "Leh-Ladakh Backpacking",
+    oldPrice: "₹45,999",
+    newPrice: "₹34,999",
+    nights: "7N/8D",
+    rating: 4.8,
+    img: ladakh,
+    badge: "Summer Special",
+  },
+  {
+    title: "Spiti Backpacking",
+    oldPrice: "₹34,499",
+    newPrice: "₹24,499",
+    nights: "5N/6D",
+    rating: 4.7,
+    img: spiti,
+    badge: "Trending",
+  },
+  {
+    title: "Kashmir Luxury Escape",
+    oldPrice: "₹49,999",
+    newPrice: "₹39,999",
+    nights: "6N/7D",
+    rating: 4.9,
+    img: kashmir,
+    badge: "Hot Deal",
+  },
+];
 
-  const trips = [
-    {
-      title: "Leh-Ladakh Backpacking",
-      oldPrice: "₹45,999",
-      newPrice: "₹34,999",
-      nights: "7N/8D",
-      rating: 4.8,
-      img: "src/assets/ladakh-397884_1280.jpg",
-      badge: "Summer Special",
-    },
-    {
-      title: "Spiti Backpacking",
-      oldPrice: "₹34,499",
-      newPrice: "₹24,499",
-      nights: "5N/6D",
-      rating: 4.7,
-      img: "src/assets/spiti.jpg",
-      badge: "Trending",
-    },
-    {
-      title: "Kashmir Luxury Escape",
-      oldPrice: "₹49,999",
-      newPrice: "₹39,999",
-      nights: "6N/7D",
-      rating: 4.9,
-      img: "src/assets/kashmir.jpg",
-      badge: "Hot Deal",
-    },
-  ];
 
   const reviews = [
     {
