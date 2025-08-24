@@ -618,15 +618,15 @@ const trips = [
         {/* Horizontal scrolling rows for both mobile and large views */}
         <div className="mt-6 flex flex-col gap-6">
           {/* First row of destinations */}
-          <div ref={scrollContainer1} className="flex overflow-x-auto no-scrollbar  snap-mandatory   gap-6 pb-4">
+          <div ref={scrollContainer1} className="flex overflow-x-auto no-scrollbar     gap-6 pb-4">
               {firstRowDestinations.map((d, i) => (
-                <Placard key={i} name={d.name} img={d.img} tag={d.tag} />
+                <Placard key={i} name={d.name} img={d.img} tag={d.tag}   className="snap-start" />
               ))}
           </div>
           {/* Second row of destinations */}
-          <div ref={scrollContainer2} className="flex overflow-x-auto no-scrollbar snap-mandatory  gap-6 pb-4">
+          <div ref={scrollContainer2} className="flex overflow-x-auto no-scrollbar   gap-6 pb-4">
               {secondRowDestinations.map((d, i) => (
-                <Placard key={i} name={d.name} img={d.img} tag={d.tag} />
+                <Placard key={i} name={d.name} img={d.img} tag={d.tag}    className="snap-start"/>
               ))}
           </div>
         </div>
