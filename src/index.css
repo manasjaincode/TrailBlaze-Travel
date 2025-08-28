@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
 @import url('https://fonts.cdnfonts.com/css/futura-pt');
 @import "tailwindcss";
 @import "tw-animate-css";
@@ -129,6 +130,12 @@
 .scrollbar-hide {
   -ms-overflow-style: none;
   scrollbar-width: none;
+}
+.black-box {
+  position: absolute;
+  bottom: 40px;  /* jitna neeche chahiye utna adjust karlo */
+  left: 50%;
+  transform: translateX(-50%);
 }
 
   }
