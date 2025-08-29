@@ -3,6 +3,8 @@ import InternationalDepartures from "./components/InternationalDepartures.jsx";
 import DomesticDepartures from "./components/DomesticDepartures.jsx";
 import ExclusivePackage from "./components/ExclusivePackages.jsx";
 import WhyTravel from "./components/WhyTravelWithUs.jsx";
+import TestimonialSection from "./components/Testimonials.jsx";
+
 function App() {
   return (
     <>
@@ -11,6 +13,7 @@ function App() {
       <DomesticDepartures />
       <ExclusivePackage/>
       <WhyTravel/>
+      <TestimonialSection/>
     </>
   );
 }

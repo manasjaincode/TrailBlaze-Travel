@@ -36,17 +36,20 @@ const WhyTravel = () => {
   return (
     <section className="w-[92%] lg:w-[80%] mx-auto py-12 font-['Poppins'] text-center">
       {/* Heading */}
-      <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold uppercase tracking-wide">
+      <h2 className="text-2xl sm:text-3xl lg:text-4xl font-semibold uppercase tracking-wide">
         WHY TRAVEL WITH TRAILBLAZE?
       </h2>
-      <p className="text-gray-700 mt-2 mb-10 italic">
+      <p className="text-gray-700 mt-2 mb-10 italic text-sm sm:text-base">
         Har turn pe adventure, har stop pe sukoon…
       </p>
 
       {/* Features Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10">
         {features.map((f, i) => (
-          <div key={i} className="flex flex-col items-center text-center">
+          <div
+            key={i}
+            className="flex flex-col items-center text-center transition-transform duration-300 hover:scale-105"
+          >
             <div className="relative w-20 h-20 flex items-center justify-center mb-4">
               {/* Background brush only for first */}
               {f.hasBg && (
@@ -62,10 +65,10 @@ const WhyTravel = () => {
                 className="relative w-12 h-12 object-contain"
               />
             </div>
-            <h3 className="font-semibold text-sm sm:text-base lg:text-lg mb-2">
+            <h3 className="font-semibold text-base sm:text-lg lg:text-xl tracking-tight">
               {f.title}
             </h3>
-            <p className="text-xs sm:text-sm text-gray-600 max-w-[240px]">
+            <p className="text-xs sm:text-sm text-gray-600 max-w-[240px] leading-relaxed">
               {f.desc}
             </p>
           </div>
