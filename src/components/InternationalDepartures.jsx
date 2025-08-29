@@ -27,22 +27,22 @@ const InternationalDepartures = () => {
   return (
     <section className="relative py-16 overflow-hidden flex flex-col items-center">
       {/* Background Box */}
-      <div className="relative w-[90%] lg:w-[80%] rounded-xl overflow-hidden">
+      <div className="relative w-[90%] lg:w-[80%] rounded-xl ">
         <img
           src={skinbg}
           alt="background"
           className="absolute inset-0 w-full h-full object-cover pointer-events-none"
         />
 
-        {/* Airplane */}
+        {/* ✈️ Airplane at top-left corner (flying in) */}
         <img
           src={airplane}
           alt="airplane"
-          className="absolute -top-10 -left-10 w-44 rotate-[-10deg] z-10"
+          className="absolute -top-16 -left-16 w-44 rotate-[12deg] z-20"
         />
 
         {/* Content inside skinbg */}
-        <div className="relative z-20 px-6 pb-12">
+        <div className="relative z-30 px-6 pb-12">
           {/* Title */}
           <div className="text-center relative pt-12">
             <h2 className="text-2xl font-bold tracking-wide">
@@ -75,6 +75,7 @@ const InternationalDepartures = () => {
                 key={i}
                 className="flex-shrink-0 w-52 rounded-xl overflow-hidden shadow-md bg-white/5"
               >
+                {/* Card Image */}
                 <div className="h-72 relative">
                   <img
                     src={dest.img}
@@ -85,35 +86,24 @@ const InternationalDepartures = () => {
                     {dest.name}
                   </h3>
                 </div>
+
+                {/* View Itinerary button */}
+                <div className="flex justify-center mt-3 mb-2">
+                  <button className="relative">
+                    <img
+                      src={section3yellowbrush}
+                      alt="yellow brush"
+                      className="w-28"
+                    />
+                    <span className="absolute inset-0 flex items-center justify-center text-sm font-semibold">
+                      View Itinerary
+                    </span>
+                  </button>
+                </div>
               </div>
             ))}
           </div>
         </div>
-      </div>
-
-      {/* Buttons row OUTSIDE skinbg but aligned */}
-      <div
-        className="
-          mt-6 flex gap-6 
-          overflow-x-auto scrollbar-hide 
-          lg:justify-center lg:overflow-visible
-          w-[90%] lg:w-[80%]
-        "
-      >
-        {destinations.map((_, i) => (
-          <div key={i} className="flex-shrink-0 w-52 flex justify-center">
-            <button className="relative">
-              <img
-                src={section3yellowbrush}
-                alt="yellow brush"
-                className="w-28"
-              />
-              <span className="absolute inset-0 flex items-center justify-center text-sm font-semibold">
-                View Itinerary
-              </span>
-            </button>
-          </div>
-        ))}
       </div>
     </section>
   );
