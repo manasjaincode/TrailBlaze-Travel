@@ -9,11 +9,11 @@ import ladakh from "../assets/ladakh.svg";
 import bhutan from "../assets/bhutan.svg";
 import georgia from "../assets/georgia.svg";
 
-// Airplane
-import airplane from "../assets/whiteairplane.svg";
-
 // Background
 import skinbg from "../assets/skinbg.svg";
+
+// Monuments
+import blackmonuments from "../assets/blackmonuments.svg";
 
 const destinations = [
   { name: "Bali", img: bali },
@@ -23,7 +23,7 @@ const destinations = [
   { name: "Georgia", img: georgia },
 ];
 
-const InternationalDepartures = () => {
+const DomesticDepartures = () => {
   return (
     <section className="relative py-16 overflow-hidden flex flex-col items-center">
       {/* Background Box */}
@@ -34,23 +34,12 @@ const InternationalDepartures = () => {
           className="absolute inset-0 w-full h-full object-cover pointer-events-none"
         />
 
-        {/* ✈️ Airplane at top-left corner (responsive position) */}
-        <img
-          src={airplane}
-          alt="airplane"
-          className="
-            absolute 
-            -top-10 -left-6 w-32 rotate-[12deg] z-20
-            sm:-top-16 sm:-left-16 sm:w-44
-          "
-        />
-
         {/* Content inside skinbg */}
         <div className="relative z-30 px-6 pb-12">
           {/* Title */}
           <div className="text-center relative pt-12">
             <h2 className="text-2xl font-bold tracking-wide">
-              INTERNATIONAL DEPARTURES
+              DOMESTIC DEPARTURES
             </h2>
             <img
               src={yellowline}
@@ -107,10 +96,19 @@ const InternationalDepartures = () => {
               </div>
             ))}
           </div>
+
+          {/* Monuments SVG */}
+          <div className="mt-12 flex justify-center">
+            <img
+              src={blackmonuments}
+              alt="Monuments"
+              className="w-[85%] max-w-4xl h-auto"
+            />
+          </div>
         </div>
       </div>
     </section>
   );
 };
 
-export default InternationalDepartures;
+export default DomesticDepartures;
