@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import spitivalley from "../assets/Spitivalley.jpg";
-import kashmirindia from "../assets/kashmirindia.jpg";
+import kashmirindia from "../assets/Kashmirindia.jpg";
 import ladakh from "../assets/ladakh.jpg";
 
 const packages = [
