@@ -128,11 +128,11 @@ const HeroWithNavbar = () => {
               </div>
 
               {/* Trustpilot */}
-              <div className="flex items-center gap-2 mt-4">
+              <div className="flex items-center gap-2 mt-2">
                 <img
                   src={trustpilot}
                   alt="Trustpilot Rating"
-                  className="h-6 md:h-8"
+                  className="h-4 md:h-6"
                 />
               </div>
             </div>
