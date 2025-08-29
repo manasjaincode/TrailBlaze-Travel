@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import spitivalley from "../assets/spitivalley.jpg";
+import spitivalley from "../assets/Spitivalley.jpg";
 import kashmirindia from "../assets/kashmirindia.jpg";
 import ladakh from "../assets/ladakh.jpg";
 
