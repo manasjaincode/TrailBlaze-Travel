@@ -2,7 +2,7 @@ import React from "react";
 import skinbrush from "../assets/skinbrush.svg";
 import orangebrush from "../assets/orangebrush.svg";
 import Akansha from "../assets/akansha.svg";
-import star from "../assets/5star.svg";
+import star from "../assets/5Star.svg";
 import leftArrow from "../assets/Handdrawnarrowleft.svg";
 import rightArrow from "../assets/Handdrawn arrowright.svg";
 
