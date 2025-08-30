@@ -3,6 +3,7 @@ import trackingshoes from "../assets/trackingshoes.svg";
 import tripod from "../assets/tripod.svg";
 import jacket from "../assets/jacket.svg";
 import brush from "../assets/smallskinbrush.svg";
+import bg from "../assets/skinbrushgear.svg";
 
 export default function TrailGearPicks() {
   const items = [
@@ -14,7 +15,15 @@ export default function TrailGearPicks() {
   ];
 
   return (
-    <section className="w-full bg-[#faf7f2] py-10 px-4 md:px-12">
+    <section
+      className="mx-auto py-10 px-4 md:px-12 rounded-2xl"
+      style={{
+        maxWidth: "1100px", // 👈 smaller than full width
+        backgroundImage: `url(${bg})`,
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+      }}
+    >
       {/* Heading */}
       <div className="text-center mb-8">
         <h2
