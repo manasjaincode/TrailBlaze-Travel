@@ -7,6 +7,8 @@ import WhyTravel from "./components/WhyTravelWithUs.jsx";
 import TestimonialSection from "./components/Testimonials.jsx";
 import BG3 from "./assets/BG3.svg";
 import CustomTripPlan from "./components/CustomTripPlan.jsx";
+import PlanByInterest from "./components/PlanByInterest.jsx";
+import  TrailGearPicks from "./components/TrailGearPicks.jsx";
 function App() {
   return (
     <div
@@ -22,6 +24,8 @@ function App() {
         <WhyTravel />
         <TestimonialSection />
         <CustomTripPlan />
+        <PlanByInterest/>
+        < TrailGearPicks/>
       </div>
     </div>
   );
